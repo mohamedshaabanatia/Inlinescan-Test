@@ -15,6 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-           curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
-           
+      run: docker build . --file Dockerfile --tag test:latest
+    - name: Sysdig CLI scanner
+      run: |
+        curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
+        chmod +x ./sysdig-cli-scanner
+        SECURE_API_TOKEN=${{ secrets.SYSDIG_SECURE_TOKEN}} ./sysdig-cli-scanner --apiurl us2.app.sysdig.com test:latest
+      
