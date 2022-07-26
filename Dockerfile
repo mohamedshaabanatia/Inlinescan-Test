@@ -1,7 +1,6 @@
 # Basic nginx dockerfile starting with Ubuntu 20.04
-FROM ubuntu:20.04
+FROM FROM nginx:latest
 RUN apt-get -y update
-RUN apt-get -y install nginx=1.18.*
 RUN apt-get -y install vim
 RUN date >> /usr/share/nginx/html/index.html
 
